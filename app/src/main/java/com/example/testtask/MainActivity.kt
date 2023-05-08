@@ -143,11 +143,9 @@ fun ImageDisplay(viewModel: SharedRepositoryViewModel) {
 @Composable
 fun WebDisplay(viewModel: SharedRepositoryViewModel) {
 
-    // Declare a string that contains a url
-    val mUrl = viewModel.contentObjectLiveData.value!!.url!!
 
-    // Adding a WebView inside AndroidView
-    // with layout as full screen
+    val url = viewModel.contentObjectLiveData.value!!.url!!
+
     AndroidView(factory = {
         WebView(it).apply {
             layoutParams = ViewGroup.LayoutParams(
@@ -156,9 +154,9 @@ fun WebDisplay(viewModel: SharedRepositoryViewModel) {
             )
             webViewClient = WebViewClient()
             settings.javaScriptEnabled = true
-            loadUrl(mUrl)
+            loadUrl(url)
         }
     }, update = {
-        it.loadUrl(mUrl)
+        it.loadUrl(url)
     })
 }
