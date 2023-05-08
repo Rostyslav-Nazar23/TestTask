@@ -132,7 +132,7 @@ fun NextButton(viewModel: SharedRepositoryViewModel) {
 fun ImageDisplay(viewModel: SharedRepositoryViewModel) {
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
-            .data("http: //www.w3.org/2000/svg")
+            .data("https://svgshare.com/i/U7z.svg")
             .decoderFactory(SvgDecoder.Factory())
             .build(),
         contentDescription = null,
