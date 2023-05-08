@@ -94,6 +94,9 @@ fun MainScreen(viewModel: SharedRepositoryViewModel) {
     val contentObject = viewModel.contentObjectLiveData.observeAsState()
 
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+            RefreshButton(viewModel = viewModel)
+        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -142,8 +145,6 @@ fun ImageDisplay(viewModel: SharedRepositoryViewModel) {
 
 @Composable
 fun WebDisplay(viewModel: SharedRepositoryViewModel) {
-
-
     val url = viewModel.contentObjectLiveData.value!!.url!!
 
     AndroidView(factory = {
@@ -159,4 +160,14 @@ fun WebDisplay(viewModel: SharedRepositoryViewModel) {
     }, update = {
         it.loadUrl(url)
     })
+}
+
+@Composable
+fun RefreshButton(viewModel: SharedRepositoryViewModel) {
+    Button(modifier = Modifier.height(32.dp), onClick = {
+        viewModel.refreshDataObject()
+        viewModel.refreshContentObject(CURRENTID)
+    }) {
+        Text(text = "Refresh")
+    }
 }
