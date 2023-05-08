@@ -1,21 +1,22 @@
 package com.example.testtask
 
-class SharedRepository {
-    suspend fun getDataObject(): DataObject? {
-        val request = RetrofitClient.RetrofitClient.getDataObject()
+import retrofit2.Response
 
-        if (request.isSuccessful){
-            return request.body()!!
-        }
-        return null
+class SharedRepository {
+    suspend fun getDataObject(): NewResponse<DataObject> {
+        return safeCall {
+            RetrofitClient.RetrofitClient.getDataObject() }
     }
 
-    suspend fun getContentObject(id: Int): ContentObject?{
-        val request = RetrofitClient.RetrofitClient.getContentObject(id)
+    suspend fun getContentObject(id: Int): NewResponse<ContentObject> {
+        return safeCall { RetrofitClient.RetrofitClient.getContentObject(id) }
+    }
 
-        if (request.isSuccessful){
-            return request.body()!!
+    private inline fun <T> safeCall(call: () -> Response<T>): NewResponse<T> {
+        return try {
+            NewResponse.success(call.invoke())
+        } catch (e: Exception) {
+            NewResponse.failure(e)
         }
-        return null
     }
 }
